@@ -9,6 +9,14 @@ CreateXUserAccountsForOpenSim
 script description 
 ------------------
 This Linux bash shell script create x number of user accounts (for Non-Player Characters NPC) in OpenSim server and save the user accounts details to a CSV file called OpenSimUsers.csv.
+This CSV file can be fetched as it is to my tool  libOMVMobilityModels hosted here: https://github.com/HusseinBakri/libOMVMobilityModels
+
+libOMVMobilityModels is an NPCs QoS stress and mobility tool that uses LibOpenMetaverse which can be found here   https://github.com/openmetaversefoundation/libopenmetaverse)
+
+libOMVMobilityModels allows you to choose from 6 mobility models for your NPCs:
+[1] StayingStillWithoutYawFor3minutes , [2] StayingStillWithYawFor3minutes , [3] RandomWalkFor3minutes ///[4] RandomRunFor3minutes , [5] RandomFlyFor3minutes , [6] RandomTeleportFor3minutes ///Enjoy!
+
+In a nutshell you can now create hundreds of user accounts automatically using this shell script and load the resulting  CSV file to my libOMVMobilityModels tool which can allow your avatars to act upon one of the mobility models specified. 
 
 License
 -------
