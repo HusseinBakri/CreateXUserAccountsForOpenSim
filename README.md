@@ -41,6 +41,6 @@ Usage
 
 3) While in bin directory run it as follows: ./createXUsersAccountsOpenSim
 
-Warning:
+Warning
 -------
 Don't use this Linux bash shell script as it is. Please change the  code to suit your world especially when giving enough time for your OpenSim world to load and enough time to shutdown. I might update the script later (if time allows) to take arguments. Enjoy!
