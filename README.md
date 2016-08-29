@@ -1,8 +1,18 @@
-#########################################################################################################################
-#Author: Hussein Bakri
-#Title of the script: CreateXUserAccountsForOpenSim
-#script description: This Linux bash shell script create x number of user accounts (for Non-Player Characters NPC) in OpenSim server and save the user accounts details to a CSV file called OpenSimUsers.csv.
-License: GNU GLP v3 License - you are free to distribute, change, enhance and include any of the code of this shell script in your tools. I only expect  adequate attribution of this work. The attribution should include the title of the script, the author and the site or document where the script is taken from.
+Author
+-----
+Hussein Bakri
+
+Title of the script
+--------------------
+CreateXUserAccountsForOpenSim
+
+script description 
+------------------
+This Linux bash shell script create x number of user accounts (for Non-Player Characters NPC) in OpenSim server and save the user accounts details to a CSV file called OpenSimUsers.csv.
+
+License
+-------
+GNU GLP v3 License - you are free to distribute, change, enhance and include any of the code of this shell script in your tools. I only expect  adequate attribution of this work. The attribution should include the title of the script, the author and the site or document where the script is taken from.
 
 Logic of the script
 ------------------
