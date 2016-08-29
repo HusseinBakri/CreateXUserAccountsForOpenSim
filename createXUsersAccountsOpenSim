@@ -1,0 +1,96 @@
+#!/bin/bash
+##################################################################################################################################################
+#Author: Hussein Bakri
+#Script Title: This script create X nb of user accounts (for NPC bots) in OpenSim and save account details to OpenSimUsers.csv
+#License: GNU GPL v3 License - you are free to distribute, change, enhance and include any of the code of this script in your tools. I only expect #adequate attribution of this work. The attribution should include the title of the script, the author and the site or the document where the #script is taken from.
+#
+#This script uses the lovely GNU Screen command to achieve this. Enjoy! 
+#It should be noted that you can achieve the same effect with any web programming language when you using RemoteAdmin http://opensimulator.org/wiki/RemoteAdmin:admin_create_user nevertheless the script do the job although, it can be definetely  enhanced in many ways.
+##################################################################################################################################################
+echo "This script creates X nb of dummy accounts for OpenSim"
+echo "Using the OpenSim Server Console command -- create user firstname lastname password email --"
+echo "It uses the GNU Screen command to do this. Watch the magic!"
+
+echo
+
+
+echo "Creating a screen session for OpenSim server named: OpenSimSession..."
+echo
+screen -S OpenSimSession -d -m
+sleep 3
+
+echo "Launching OpenSim server through the mono framework by using screen -S OpenSimSession -X stuff ..."
+screen -S OpenSimSession -X stuff 'mono OpenSim.exe'`echo -ne '\015'`
+
+echo "please wait untill your server loads completely ...."
+#########################################################################################################
+sleep 180 			#### change denpending on startup time of the OpenSim world
+				#### Example: Cathedral takes 8 minutes and 17 seconds (497 seconds) to load
+				#### Give always additional time.
+##########################################################################################################
+
+echo "I finished loading OpenSim server in the screen session created previously. Moving on to the next step..."
+sleep 3
+
+read -rsp $'When ready, Press any key in this terminal to continue - terminal should be in focus...\n' -n1 key
+
+echo -n "Enter the number of dummy accounts you want to create in the form of - FirstX LastX 123 yyy@yyy - and press [ENTER]: "
+read numberofaccounts
+
+if [ $numberofaccounts -eq $numberofaccounts 2>/dev/null ]
+then
+     echo "$numberofaccounts is an integer - OK"
+else
+    echo "$numberofaccounts is not an integer, This will fail the program, please insert a number"
+fi
+
+echo 'Your accounts will be saved also in a CSV file named OpenSimUsers.csv...'
+echo 'Creating your accounts, this might take time...'
+
+mkdir -p USERS
+
+accountnumber=0
+while [ $accountnumber -lt $numberofaccounts ]
+do
+echo 'creating an account now...'
+screen -r OpenSimSession -X stuff $"create user First${accountnumber} Last${accountnumber} 123 yyy@yyy\n"
+sleep 2 #Wait 2 second.
+#screen -r OpenSimSession -X stuff $'\n'			#send the ENTER effect (very essential step othewise OpenSim will not load again)
+screen -r OpenSimSession -X stuff `echo -ne '\015'`		#send the ENTER effect (very essential step othewise OpenSim will not load again)
+sleep 5 #Wait 5 second.
+screen -r OpenSimSession -X hardcopy -h USERS/FILO${accountnumber}
+sleep 2
+echo 'Saving that account to CSV file ...'
+printf '%s\n' First${accountnumber} Last${accountnumber} 123 yyy@yyy | paste -sd ',' >> OpenSimUsers.csv
+sleep 1 #Wait 1 second.
+((accountnumber++))
+done
+
+
+echo "I finished the loop that creates OpenSim accounts ...."
+echo
+echo "Continuing to the Next step"
+echo "..."
+sleep 4
+echo "Now shutting down OpenSim server.... "
+sleep 2
+
+echo "Sending a shutdown to the OpenSim server - it takes time (around 2 minutes)"
+screen -r OpenSimSession -X stuff $'shutdown\n'		#sending a shutdown command
+#sending a shutdown command 
+#########################################################################################################
+sleep 120	 		#### time to wait for OpenSim to shutdown – normally should be higher
+				#### change denpending on startup time of the OpenSim world
+				#### Give always additional time.
+##########################################################################################################
+
+echo "Making sure that OpenSim is closed"
+OpenSimID=`ps –ef | grep OpenSim |grep ‘mono OpenSim.exe’ | gawk ‘{ print $2 }’`
+kill -9 $OpenSimID
+
+echo "Exiting the screen session itself...." 
+sleep 2
+screen -r OpenSimSession -X stuff $'exit\n' #exiting the session itself (i.e terminating)
+echo "Fin"
+
+
