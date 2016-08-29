@@ -34,7 +34,9 @@ Nevertheless this shell script do the job. This script can be improved in many w
 Usage
 -----
 1) Drop the bash shell script into the bin folder of your OpenSim server
+
 2) change its permissions if required: chmod +x createXUsersAccountsOpenSim
+
 3) While in bin directory run it as follows: ./createXUsersAccountsOpenSim
 
 Warning:
